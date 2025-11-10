@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RxStocks Pro ver. 1.0 - Medicine Inventory Management System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/feather-icons"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0a0a0a; /* A very dark gray, almost black */
+        }
+        .gradient-bg {
+            background: linear-gradient(145deg, #1e3a8a 0%, #0a0a0a 50%, #1e3a8a 100%);
+        }
+        .hero-glow {
+            text-shadow: 0 0 15px rgba(59, 130, 246, 0.5), 0 0 30px rgba(59, 130, 246, 0.3);
+        }
+        .btn-glow {
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.6), 0 0 5px rgba(255, 255, 255, 0.5) inset;
+            transition: all 0.3s ease-in-out;
+        }
+        .btn-glow:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 25px rgba(59, 130, 246, 0.8), 0 0 10px rgba(255, 255, 255, 0.7) inset;
+        }
+        .card-border-glow {
+            position: relative;
+            background: #111827; /* Dark blue-gray */
+            border-radius: 1rem;
+            overflow: hidden;
+            border: 1px solid #1f2937;
+        }
+        .card-border-glow::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(transparent, rgba(59, 130, 246, 0.3), transparent 30%);
+            animation: rotate 6s linear infinite;
+        }
+        @keyframes rotate {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        .scroll-target {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .scroll-target.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* --- CSS for Iframe Popup (Wix) --- */
+        .iframe-cropper-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh; /* Full viewport height */
+            z-index: 100;
+            background-color: #0a0a0a;
+            overflow: hidden; /* This is the key to cropping */
+        }
+        .embedded-iframe {
+            width: 100%;
+            height: calc(100vh + 60px); 
+            margin-top: -60px; /* Hides Wix banner */
+            border: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        /* --- NEW CLASS for GitHub/non-Wix --- */
+        .embedded-iframe-github {
+            width: 100%;
+            height: 100vh; /* Fills the viewport normally */
+            border: none;
+            margin-top: 0; /* No negative margin */
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+    </style>
+</head>
+<body class="text-gray-200">
+
+    <header id="header" class="fixed top-0 left-0 right-0 z-50 bg-black/30 backdrop-blur-sm">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-400"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>
+                <h1 class="text-xl font-bold tracking-wider text-white">RxStocks Pro ver. 1.0</h1>
+            </div>
+            <nav class="hidden md:flex space-x-8">
+                <a href="#features" class="hover:text-blue-400 transition">Features</a>
+                <a href="#dashboard" class="hover:text-blue-400 transition">Dashboard</a>
+                <a href="#contact" class="hover:text-blue-400 transition">Contact</a>
+            </nav>
+            
+        </div>
+    </header>
+
+    <main>
+        <section class="min-h-screen flex items-center justify-center text-center px-4 pt-24 gradient-bg">
+            <div class="max-w-4xl">
+                <h2 class="text-5xl md:text-7xl font-extrabold text-white hero-glow leading-tight">
+                    Intelligent Medicine Inventory for Modern Healthcare
+                </h2>
+                <p class="mt-6 text-lg md:text-xl text-gray-300 max-w-2xl mx-auto">
+                    A streamlined, technology solution to efficiently track, manage, and dispense patient medication, minimizing errors and optimizing medication workflow.
+                </p>
+                <div class="mt-10">
+                    <button id="demo-button" class="bg-blue-600 hover:bg-blue-500 text-white font-semibold px-6 py-3 rounded-lg btn-glow text-lg">
+                        View Demo
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="py-20 sm:py-32 bg-[#0a0a0a]">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16 scroll-target">
+                    <h3 class="text-4xl font-bold text-white">Why RxStocks Pro?</h3>
+                    <p class="text-gray-400 mt-2">Everything you need for a smarter pharmacy.</p>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="p-8 rounded-xl bg-gray-900/50 border border-gray-800 scroll-target transition-transform duration-300 hover:scale-105 hover:border-blue-500">
+                        <div class="bg-blue-900/50 text-blue-300 w-12 h-12 rounded-full flex items-center justify-center">
+                            <i data-feather="database"></i>
+                        </div>
+                        <h4 class="text-xl font-semibold text-white mt-6">Real-time Tracking</h4>
+                        <p class="text-gray-400 mt-2">Monitor medicine stock levels, expiration dates, and batch numbers instantly across all storage units.</p>
+                    </div>
+                    
+                    <div class="p-8 rounded-xl bg-gray-900/50 border border-gray-800 scroll-target transition-transform duration-300 hover:scale-105 hover:border-blue-500" style="transition-delay: 100ms;">
+                         <div class="bg-indigo-900/50 text-indigo-300 w-12 h-12 rounded-full flex items-center justify-center">
+                            <i data-feather="clock"></i>
+                        </div>
+                        <h4 class="text-xl font-semibold text-white mt-6">24/7 Access</h4>
+                        <p class="text-gray-400 mt-2">Access your inventory data, reports, and management tools from any device, anytime, ensuring non-stop operations.</p>
+                    </div>
+
+                    <div class="p-8 rounded-xl bg-gray-900/50 border border-gray-800 scroll-target transition-transform duration-300 hover:scale-105 hover:border-blue-500" style="transition-delay: 200ms;">
+                         <div class="bg-yellow-900/50 text-yellow-300 w-12 h-12 rounded-full flex items-center justify-center">
+                            <i data-feather="bell"></i>
+                        </div>
+                        <h4 class="text-xl font-semibold text-white mt-6">Automated Alerts</h4>
+                        <p class="text-gray-400 mt-2">Receive intelligent notifications for low stock, expiring medicines, and potential drug interactions.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="dashboard" class="py-20 sm:py-32">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16 scroll-target">
+                    <h3 class="text-4xl font-bold text-white">Your Command Center</h3>
+                    <p class="text-gray-400 mt-2">An intuitive dashboard that brings clarity to complexity.</p>
+                </div>
+                <div class="card-border-glow p-1 scroll-target">
+                    <div class="bg-[#0c101a] p-4 sm:p-8 rounded-xl shadow-2xl shadow-blue-900/20">
+                        <div class="flex flex-col lg:flex-row gap-6">
+                            <div class="lg:w-1/3 bg-gray-900/50 p-4 rounded-lg border border-gray-800">
+                                <h5 class="font-semibold text-white mb-4">List of Medicines</h5>
+                                <div class="space-y-3">
+                                    <div class="flex items-center justify-between p-3 bg-gray-800 rounded-md">
+                                        <div>
+                                            <p class="font-medium text-sm text-white"></p>
+                                            <p class="text-xs text-gray-400">Awaiting Paracetamol</p>
+                                        </div>
+                                        <span class="text-xs font-mono text-green-400">Ready</span>
+                                    </div>
+                                    <div class="flex items-center justify-between p-3 bg-gray-800/50 rounded-md opacity-70">
+                                        <div>
+                                            <p class="font-medium text-sm text-white"></p>
+                                            <p class="text-xs text-gray-400">Awaiting Ibuprofen</p>
+                                        </div>
+                                        <span class="text-xs font-mono text-yellow-400">Pending</span>
+                                    </div>
+                                     <div class="flex items-center justify-between p-3 bg-gray-800/50 rounded-md opacity-70">
+                                        <div>
+                                            <p class="font-medium text-sm text-white"></p>
+                                            <p class="text-xs text-gray-400">Awaiting Amoxicillin</p>
+                                        </div>
+                                        <span class="text-xs font-mono text-yellow-400">Pending</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="lg:w-2/3 bg-gray-900/50 p-4 rounded-lg border border-gray-800">
+                                <h5 class="font-semibold text-white mb-4">Inventory Overview</h5>
+                                <div class="h-48 bg-gray-800/50 rounded-md flex items-center justify-center">
+                                    <p class="text-gray-500"></p>
+                                </div>
+                                <div class="mt-4 overflow-x-auto">
+                                    <table class="w-full text-left text-sm">
+                                        <thead class="text-gray-400 border-b border-gray-700">
+                                            <tr><th class="p-2">Medicine</th><th class="p-2">Stock</th><th class="p-2">Status</th></tr>
+                                        </thead>
+                                        <tbody class="text-gray-200">
+                                            <tr class="border-b border-gray-800">
+                                                <td class="p-2">Paracetamol 500mg</td><td class="p-2">1200 units</td><td class="p-2"><span class="text-green-400">In Stock</span></td>
+                                            </tr>
+                                            <tr class="border-b border-gray-800">
+                                                <td class="p-2">Amoxicillin 250mg</td><td class="p-2">80 units</td><td class="p-2"><span class="text-yellow-400">Low Stock</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="p-2">Ibuprofen 200mg</td><td class="p-2">650 units</td><td class="p-2"><span class="text-yellow-400">Low Stock</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="py-20 sm:py-32 gradient-bg">
+            <div class="container mx-auto px-6 text-center">
+                 <div class="max-w-2xl mx-auto scroll-target">
+                    <h3 class="text-4xl font-bold text-white hero-glow">Ready to Take Control of Your Medication?</h3>
+                    <p class="text-gray-300 mt-4">
+                        Join thousands of users who trust RxStocks Pro for their medication management. Multi-Platform accessibility works seamlessly on computers, laptops, Android phones, and tablets. User-friendly interface with responsive design.
+                    </p>
+                    <div class="mt-8">
+                        <button id="register-download-button" class="bg-white text-blue-600 font-bold px-10 py-4 rounded-full hover:bg-cyan-300 hover:text-white transition-all transform hover:scale-105 shadow-lg text-xl">
+                            Register and Download
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <div id="loading-spinner" class="hidden fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[60]">
+            <div class="w-12 h-12 border-4 border-white border-t-blue-500 rounded-full animate-spin"></div>
+        </div>
+        <div id="iframe-container" class="w-full h-full transition-all duration-500 ease-in-out hidden">
+        </div>
+        
+    </main>
+
+    <footer class="bg-[#0a0a0a] border-t border-gray-900">
+        <div class="container mx-auto px-6 py-8 text-center text-gray-500">
+            <p>&copy; 2025 RxStocks Pro. All rights reserved.</p>
+            <p class="text-sm mt-2">Privacy Policy Terms of Service Contact Us</p>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Feather Icons
+        feather.replace();
+
+        // Simple Fade-in on Scroll Animation
+        const targets = document.querySelectorAll('.scroll-target');
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        targets.forEach(target => {
+            observer.observe(target);
+        });
+
+        // --- *** REPLACED SCRIPT *** ---
+        // --- NEW: Iframe Embed Logic ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Get references to elements
+            const demoButton = document.getElementById('demo-button');
+            const registerDownloadButton = document.getElementById('register-download-button'); // This finds your button
+            const iframeContainer = document.getElementById('iframe-container');
+            const loadingSpinner = document.getElementById('loading-spinner');
+            const header = document.getElementById('header'); // This now works
+ 
+            // --- URLs to be embedded ---
+            const demoUrl = 'https://alphamedassistance.wixsite.com/rxstocks'; // From user's new code
+            const registerUrl = 'https://alphamedassistance.github.io/rxstockprodl'; // From user's prompt text
+ 
+            // --- Core Embed Function ---
+            const loadIframe = (embedUrl, clickedButton, iframeClass) => {
+                loadingSpinner.classList.remove('hidden');
+                
+                if (clickedButton) {
+                    clickedButton.disabled = true; 
+                }
+ 
+                if(header) {
+                    header.classList.add('opacity-0', 'transform', '-translate-y-4');
+                }
+                
+                // 1. Creates the full-screen wrapper
+                const iframeWrapper = document.createElement('div');
+                iframeWrapper.classList.add('iframe-cropper-wrapper');
+ 
+                // 2. Creates the <iframe> element
+                const iframe = document.createElement('iframe');
+                iframe.src = embedUrl; // 3. Sets the source URL
+                iframe.id = 'embedded-link';
+                
+                // 4. Applies the correct class based on the button clicked
+                iframe.classList.add(iframeClass);
+                
+                iframe.onload = () => {
+                    loadingSpinner.classList.add('hidden');
+                    iframe.style.opacity = '1'; // Fade in
+                };
+                
+                iframe.onerror = () => {
+                    loadingSpinner.classList.add('hidden');
+                    iframeContainer.innerHTML = '<p class="text-red-500 p-4 bg-red-100 rounded-lg">Error loading content...</p>';
+                };
+ 
+                // 5. Appends the iframe to the wrapper
+                iframeWrapper.appendChild(iframe);
+                // 6. Appends the wrapper to the page container
+                iframeContainer.appendChild(iframeWrapper);
+ 
+                // 7. Creates the "Exit" button
+                const exitButton = document.createElement('button');
+                exitButton.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+                `;
+                exitButton.classList.add(
+                    'fixed', 'top-4', 'right-4', 'z-[110]', 'bg-red-500', 'text-white', 'p-3', // z-index 110
+                    'rounded-full', 'shadow-xl', 'hover:bg-red-600', 'transition', 
+                    'flex', 'items-center', 'justify-center'
+                );
+                
+                // 8. Sets the exit button to reload the page
+                exitButton.onclick = () => window.location.reload();
+                
+                setTimeout(() => {
+                    if(header) {
+                        header.classList.add('hidden');
+                    }
+                    iframeContainer.classList.remove('hidden');
+                    document.body.appendChild(exitButton);
+                    
+                    // Styles body for full-screen mode
+                    document.body.classList.add('overflow-hidden');
+                }, 300); // Short delay
+            };
+ 
+            // --- Event Listeners (MODIFIED) ---
+            if (demoButton) {
+                demoButton.addEventListener('click', () => loadIframe(demoUrl, demoButton, 'embedded-iframe'));
+            }
+            
+            // THIS IS THE LINE THAT HANDLES THE CLICK
+            if (registerDownloadButton) {
+                registerDownloadButton.addEventListener('click', () => loadIframe(registerUrl, registerDownloadButton, 'embedded-iframe-github'));
+            }
+        });
+    </script>
+
+</body>
+</html>
